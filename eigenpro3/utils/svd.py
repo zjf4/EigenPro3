@@ -17,7 +17,7 @@ def nystrom_kernel_svd(samples, kernel_fn, top_q):
     kmat = kernel_fn(samples, samples).cpu().data.numpy()
     scaled_kmat = kmat / n_sample
     vals, vecs = linalg.eigh(scaled_kmat,
-                             eigvals=(n_sample - top_q, n_sample - 1))
+                             subset_by_index=(n_sample - top_q, n_sample - 1))
     eigvals = torch.from_numpy(vals).flip(0)[:top_q]
     eigvecs = torch.from_numpy(vecs).flip(1)[:, :top_q]
     beta = torch.from_numpy(kmat).diag().max()
